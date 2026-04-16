@@ -1,0 +1,23 @@
+{
+  "name": "Chaes Food LLC",
+  "short_name": "ChaesFood",
+  "description": "Philadelphia distributor of fresh, frozen, and dry foods.",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#1086ff",
+  "background_color": "#0c1328",
+  "display": "standalone",
+  "start_url": "/"
+}

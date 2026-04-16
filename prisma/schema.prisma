@@ -1,0 +1,145 @@
+// Canonical catalog: src/data/products.json → seed/sync normalizes into Category, Product, ProductVariation.
+// Product images: store folder + file only (public URL = `/${folder}/${file}`).
+//
+// --- Prisma 7 vs `npx prisma init` docs (Prisma 5/6) ---
+// The official init snippet uses `provider = "prisma-client-js"` plus `url` / `directUrl` on `datasource`.
+// In Prisma ORM **7**, those URL fields are **not allowed** in schema.prisma; the CLI reads URLs from
+// `prisma.config.ts` instead (see https://pris.ly/d/config-datasource). The app runtime uses
+// `src/lib/prisma.ts` + `@prisma/adapter-pg` and `src/lib/database-connection.ts` (`DATABASE_URL` via
+// `getAppDatabaseUrl`). Use `provider = "prisma-client"` here (not `prisma-client-js`) for this generator.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PAID
+  FULFILLED
+  CANCELLED
+}
+
+/** How the customer will pay (fulfillment vs gateway). */
+enum PaymentType {
+  CASH_ON_DELIVERY
+  ONLINE_CARD
+}
+
+/** Lifecycle of money movement — extend when wiring card webhooks. */
+enum PaymentStatus {
+  NOT_APPLICABLE
+  PENDING
+  REQUIRES_ACTION
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+model Category {
+  id        String    @id
+  title     String
+  sortOrder Int       @default(0)
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id                String             @id
+  categoryId        String
+  category          Category           @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  slug              String?
+  name              String
+  priceCents        Int
+  imageFolder       String
+  imageFile         String
+  imageAlt          String?
+  description       String?
+  requiresVariation Boolean            @default(false)
+  variations        ProductVariation[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  @@index([categoryId])
+}
+
+model ProductVariation {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  externalId  String
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([productId, externalId])
+  @@index([productId])
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  phone        String?
+  role         UserRole @default(CUSTOMER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  guestName       String?
+  guestEmail      String?
+  guestPhone      String?
+  reference       String      @unique
+  totalCents      Int
+  currency        String      @default("USD")
+  status          OrderStatus @default(DRAFT)
+  note            String?
+  deliveryAddress String?
+  paymentType     PaymentType?
+  paymentStatus   PaymentStatus @default(NOT_APPLICABLE)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id                  String  @id @default(cuid())
+  orderId             String
+  order               Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  /** Composite cart key: `productId` or `productId::variationExternalId` */
+  lineSku             String
+  productId           String?
+  variationExternalId String?
+  productName         String
+  imageFolder         String?
+  imageFile           String?
+  quantity            Int
+  unitPriceCents      Int
+  lineTotalCents      Int
+
+  @@index([orderId])
+  @@index([lineSku])
+}

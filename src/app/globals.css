@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/*
+  Storefront theme aligned with legacy chaesfood.com:
+  primary #1086ff, headings Muli-style (Mulish), body Roboto, footer #0c1328.
+*/
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+  --muted: #63666b;
+  --surface-muted: #f1f3f5;
+  --primary: #1086ff;
+  --primary-hover: #0d6fe0;
+  --primary-foreground: #ffffff;
+  --teal: #0097a7;
+  --warm: #ffab40;
+  --lime: #eeff41;
+  --ring: #1086ff;
+  --chart-positive: #50b432;
+  --chart-alert: #ed561b;
+  --brand-blue: #1086ff;
+  --brand-red: #e31b23;
+  --footer-bg: #0c1328;
+  --footer-border: #353b4c;
+  --footer-muted: #9aa0ae;
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface-muted: var(--surface-muted);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-teal: var(--teal);
+  --color-warm: var(--warm);
+  --color-lime: var(--lime);
+  --color-ring: var(--ring);
+  --color-chart-positive: var(--chart-positive);
+  --color-chart-alert: var(--chart-alert);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-red: var(--brand-red);
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-border: var(--footer-border);
+  --color-footer-muted: var(--footer-muted);
+  --radius-lg: var(--radius);
+  --font-sans: var(--font-roboto), Arial, "Helvetica Neue", Helvetica, system-ui, sans-serif;
+  --font-heading: var(--font-mulish), var(--font-sans);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Hide scrollbar for horizontal filter chips on small screens */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+/* Subtle depth for cards */
+.shadow-elevated {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 18px 50px -28px rgba(15, 23, 42, 0.35);
+}
+
+@keyframes partners-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-partners-marquee {
+  animation: partners-marquee 36s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-partners-marquee {
+    animation: none;
+  }
+
+  .partners-marquee-track {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .partners-marquee-track > div:last-of-type {
+    display: none;
+  }
+
+  .partners-marquee-track > div:first-of-type {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1rem;
+  }
+}
+
+@media (hover: hover) {
+  .partners-marquee-wrap:hover .animate-partners-marquee {
+    animation-play-state: paused;
+  }
+}

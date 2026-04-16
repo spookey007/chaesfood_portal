@@ -1,0 +1,416 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "categories": [
+    {
+      "id": "fresh",
+      "slug": "fresh",
+      "title": "Fresh",
+      "items": [
+        {
+          "id": "chicken",
+          "slug": "chicken",
+          "name": "Chicken",
+          "image": "/product_images/fresh/chicken.jpg",
+          "imageAlt": "Fresh chicken distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "boneless-breast",
+              "name": "Boneless Breast"
+            },
+            {
+              "id": "boneless-thigh",
+              "name": "Boneless Thigh"
+            },
+            {
+              "id": "boneless-tender",
+              "name": "Boneless Tender"
+            },
+            {
+              "id": "party-wing",
+              "name": "Party Wing"
+            },
+            {
+              "id": "whole-wing",
+              "name": "Whole Wing"
+            },
+            {
+              "id": "quarter-leg",
+              "name": "Quarter Leg"
+            },
+            {
+              "id": "whole-chicken",
+              "name": "Whole Chicken"
+            },
+            {
+              "id": "roaster-breast",
+              "name": "Roaster Breast"
+            },
+            {
+              "id": "roaster-leg",
+              "name": "Roaster Leg"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "pork",
+          "slug": "pork",
+          "name": "Pork",
+          "image": "/product_images/fresh/pork.jpg",
+          "imageAlt": "Fresh pork distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "boston-butts",
+              "name": "Boston Butts"
+            },
+            {
+              "id": "picnic",
+              "name": "Picnic"
+            },
+            {
+              "id": "ham",
+              "name": "Ham"
+            },
+            {
+              "id": "spare-rib",
+              "name": "Spare Rib"
+            },
+            {
+              "id": "rib-belly",
+              "name": "Rib Belly"
+            },
+            {
+              "id": "lard",
+              "name": "Lard"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "beef",
+          "slug": "beef",
+          "name": "Beef",
+          "image": "/product_images/fresh/beef.jpg",
+          "imageAlt": "Fresh beef distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "flank-steak",
+              "name": "Flank Steak"
+            },
+            {
+              "id": "trim-meat",
+              "name": "Trim Meat"
+            },
+            {
+              "id": "peeled-knuckle",
+              "name": "Peeled Knuckle"
+            },
+            {
+              "id": "ground-beef",
+              "name": "Ground Beef"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "egg",
+          "slug": "egg",
+          "name": "Egg",
+          "image": "/product_images/fresh/egg.jpg",
+          "imageAlt": "Fresh eggs distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "xlarge-carton",
+              "name": "X-Large Carton"
+            },
+            {
+              "id": "large-carton",
+              "name": "Large Carton"
+            },
+            {
+              "id": "medium-carton",
+              "name": "Medium Carton"
+            },
+            {
+              "id": "xlarge-loose",
+              "name": "X-Large Loose"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "cheese",
+          "slug": "cheese",
+          "name": "Cheese",
+          "image": "/product_images/fresh/cheese.jpg",
+          "imageAlt": "Fresh cheese distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "american-slice",
+              "name": "American Slice"
+            }
+          ],
+          "requiresVariation": false,
+          "price": 12.99
+        },
+        {
+          "id": "bacon",
+          "slug": "bacon",
+          "name": "Bacon",
+          "image": "/product_images/fresh/bacon.jpg",
+          "imageAlt": "Fresh bacon distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "hotel-bacon",
+              "name": "Hotel Bacon"
+            },
+            {
+              "id": "turkey-bacon",
+              "name": "Turkey Bacon"
+            },
+            {
+              "id": "beef-bacon",
+              "name": "Beef Bacon"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        }
+      ]
+    },
+    {
+      "id": "frozen",
+      "slug": "frozen",
+      "title": "Frozen",
+      "items": [
+        {
+          "id": "fries",
+          "slug": "fries",
+          "name": "Fries",
+          "image": "/product_images/frozen/fries.jpg",
+          "imageAlt": "Frozen french fries distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "straight-cut",
+              "name": "Straight Cut"
+            },
+            {
+              "id": "crinkle-cut",
+              "name": "Crinkle Cut"
+            },
+            {
+              "id": "coated-straight-cut",
+              "name": "Coated Straight Cut"
+            },
+            {
+              "id": "coated-shoestring",
+              "name": "Coated Shoestring"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "philly-steak",
+          "slug": "philly-steak",
+          "name": "Philly Steak",
+          "image": "/product_images/frozen/phillysteak.jpg",
+          "imageAlt": "Frozen Philly steaks distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "beef-steak-4-8oz",
+              "name": "Beef Steak 4 - 8 oz"
+            },
+            {
+              "id": "chicken-steak-4-8oz",
+              "name": "Chicken Steak 4 - 8 oz"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "burger",
+          "slug": "burger",
+          "name": "Burger",
+          "image": "/product_images/frozen/burger.jpg",
+          "imageAlt": "Frozen burgers distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "burger-4oz",
+              "name": "Burger 4 oz"
+            },
+            {
+              "id": "burger-5oz",
+              "name": "Burger 5.3 oz"
+            },
+            {
+              "id": "burger-6oz",
+              "name": "Burger 6 oz"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "appetizers",
+          "slug": "appetizers",
+          "name": "Appetizers",
+          "image": "/product_images/frozen/appetizers.jpg",
+          "imageAlt": "Frozen appetizers distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "chicken-finger",
+              "name": "Chicken Finger"
+            },
+            {
+              "id": "tyson-wing",
+              "name": "Tyson Wing"
+            },
+            {
+              "id": "wing-ding",
+              "name": "Wing Ding"
+            },
+            {
+              "id": "chicken-nugget",
+              "name": "Chicken Nugget"
+            },
+            {
+              "id": "onion-ring",
+              "name": "Onion Ring"
+            },
+            {
+              "id": "mozz-stick",
+              "name": "Mozz. Stick"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        }
+      ]
+    },
+    {
+      "id": "dry",
+      "slug": "dry",
+      "title": "Dry",
+      "items": [
+        {
+          "id": "sauce",
+          "slug": "sauce",
+          "name": "Sauce",
+          "image": "/product_images/dry/sauce.jpg",
+          "imageAlt": "Sauce distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "ketchup",
+              "name": "Ketchup"
+            },
+            {
+              "id": "mayonnaise",
+              "name": "Mayonnaise"
+            },
+            {
+              "id": "hot-sauce",
+              "name": "Hot Sauce"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "oil",
+          "slug": "oil",
+          "name": "Oil",
+          "image": "/product_images/dry/oil.jpg",
+          "imageAlt": "Food oil distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "salad-oil",
+              "name": "Salad Oil"
+            },
+            {
+              "id": "clear-oil",
+              "name": "Clear Oil"
+            },
+            {
+              "id": "creamy-oil",
+              "name": "Creamy Oil"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "flour",
+          "slug": "flour",
+          "name": "Flour",
+          "image": "/product_images/dry/flour.jpg",
+          "imageAlt": "Flour distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "xxxx-flour",
+              "name": "XXXX Flour"
+            },
+            {
+              "id": "balancer-flour",
+              "name": "Balancer Flour"
+            },
+            {
+              "id": "so-strong-flour",
+              "name": "So Strong Flour"
+            },
+            {
+              "id": "all-trumps-flour",
+              "name": "All Trumps Flour"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "dry-goods",
+          "slug": "dry-goods",
+          "name": "Dry",
+          "image": "/product_images/dry/dry.jpg",
+          "imageAlt": "Dry food goods distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "sugar",
+              "name": "Sugar"
+            },
+            {
+              "id": "rice",
+              "name": "Rice"
+            },
+            {
+              "id": "cranberry-bean",
+              "name": "Cranberry Bean"
+            }
+          ],
+          "requiresVariation": true,
+          "price": 12.99
+        },
+        {
+          "id": "water",
+          "slug": "water",
+          "name": "Water",
+          "image": "/product_images/dry/liquid.jpg",
+          "imageAlt": "Liquid distributor in Philadelphia",
+          "variations": [
+            {
+              "id": "pureau",
+              "name": "Pureau"
+            }
+          ],
+          "requiresVariation": false,
+          "price": 12.99
+        }
+      ]
+    }
+  ]
+}
