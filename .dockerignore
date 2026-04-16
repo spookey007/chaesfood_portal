@@ -1,0 +1,17 @@
+# Dependencies and build output (reinstalled / rebuilt in image)
+node_modules
+.next
+out
+
+# Local env (inject at run / compose)
+.env
+.env.*
+!.env.example
+
+# Git and IDE
+.git
+.gitignore
+*.md
+
+# Legacy local mirror (not in repo)
+old site
