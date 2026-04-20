@@ -18,6 +18,39 @@ function usesResendOnboardingFrom(from: string): boolean {
   return from.toLowerCase().includes("onboarding@resend.dev");
 }
 
+/** Hosting env UIs often add extra quotes or line breaks around RESEND_FROM — Resend then rejects the `from` field. */
+function normalizeResendFrom(raw: string): string {
+  let s = raw.replace(/^\uFEFF/, "").trim();
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    s = s.slice(1, -1).trim();
+  }
+  if ((s.startsWith("\u201c") && s.endsWith("\u201d")) || (s.startsWith("\u2018") && s.endsWith("\u2019"))) {
+    s = s.slice(1, -1).trim();
+  }
+  s = s.replace(/\s*[\r\n]+\s*/g, " ").replace(/\t+/g, " ").replace(/ +/g, " ").trim();
+  return s;
+}
+
+/** Resend: `email@example.com` or `Name <email@example.com>`. */
+function isValidResendFromFormat(s: string): boolean {
+  const emailOk = (addr: string) => /^[^\s<>"]+@[^\s<>"]+\.[^\s<>"]+$/.test(addr.trim());
+  if (emailOk(s)) return true;
+  const m = /^(.+) <([^>]+)>$/.exec(s);
+  if (!m) return false;
+  return emailOk(m[2]);
+}
+
+function resendErrorMentionsInvalidFrom(msg: string): boolean {
+  return /invalid `from` field|invalid from field/i.test(msg);
+}
+
+function logInvalidResendFromHint(from: string): void {
+  console.error(
+    "[order-email] RESEND_FROM failed Resend format checks. Expected: orders@yourdomain.com OR \"Chaes Food <orders@yourdomain.com>\" (no extra outer quotes in the dashboard). Normalized value as JSON:",
+    JSON.stringify(from),
+  );
+}
+
 function publicAppOrigin(): string | undefined {
   const raw =
     process.env.NEXT_PUBLIC_APP_URL?.trim() ||
@@ -67,7 +100,7 @@ async function loadOrderForEmail(orderId: string) {
 export async function sendOrderPlacedEmails(orderId: string): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   /** Single verified sender for both checkout emails (customer + admin). */
-  const from = process.env.RESEND_FROM?.trim();
+  const from = normalizeResendFrom(process.env.RESEND_FROM ?? "");
 
   if (!apiKey) {
     console.warn("[order-email] RESEND_API_KEY is not set; skipping transactional emails.");
@@ -75,6 +108,10 @@ export async function sendOrderPlacedEmails(orderId: string): Promise<void> {
   }
   if (!from) {
     console.warn("[order-email] RESEND_FROM is not set; skipping transactional emails (same `from` is used for customer and admin).");
+    return;
+  }
+  if (!isValidResendFromFormat(from)) {
+    logInvalidResendFromHint(from);
     return;
   }
 
@@ -112,7 +149,16 @@ export async function sendOrderPlacedEmails(orderId: string): Promise<void> {
     text: customer.text,
   });
   if (customerResult.error) {
-    console.error("[order-email] Customer send failed:", stringifyResendError(customerResult.error));
+    const cmsg = stringifyResendError(customerResult.error);
+    console.error("[order-email] Customer send failed:", cmsg);
+    if (resendErrorMentionsInvalidFrom(cmsg)) {
+      logInvalidResendFromHint(from);
+    } else if (usesResendOnboardingFrom(from)) {
+      console.error(
+        "[order-email] Resend test sender (onboarding@resend.dev) only delivers to your Resend-account email. " +
+          "Verify a domain and use RESEND_FROM on that domain for arbitrary recipients.",
+      );
+    }
   }
 
   if (adminTo.length === 0) {
@@ -132,10 +178,11 @@ export async function sendOrderPlacedEmails(orderId: string): Promise<void> {
     text: admin.text,
   });
   if (adminResult.error) {
-    console.error("[order-email] Admin send failed:", stringifyResendError(adminResult.error), {
-      to: adminTo,
-    });
-    if (usesResendOnboardingFrom(from)) {
+    const amsg = stringifyResendError(adminResult.error);
+    console.error("[order-email] Admin send failed:", amsg, { to: adminTo });
+    if (resendErrorMentionsInvalidFrom(amsg)) {
+      logInvalidResendFromHint(from);
+    } else if (usesResendOnboardingFrom(from)) {
       console.error(
         "[order-email] Resend test sender (onboarding@resend.dev) only delivers to your Resend-account email. " +
           "Verify a domain at resend.com/domains, set RESEND_FROM to an address on that domain, then ADMIN_RECIPIENT can be any address.",
