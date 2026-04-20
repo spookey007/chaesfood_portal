@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
-import { ChevronDown, LayoutGrid, Menu, Phone, X } from "lucide-react";
+import { LayoutGrid, Menu, Phone, X } from "lucide-react";
 
 function FacebookIcon({ className }: { className?: string }) {
   return (
@@ -15,12 +15,6 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 import { CartBadge } from "@/components/cart/cart-badge";
-
-const productCategories = [
-  { href: "/products?storage=fresh", label: "Fresh" },
-  { href: "/products?storage=frozen", label: "Frozen" },
-  { href: "/products?storage=dry", label: "Dry" },
-];
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -34,20 +28,8 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
-  const productsWrapRef = useRef<HTMLDivElement>(null);
   const onAuthPage = pathname === "/login" || pathname === "/register";
   const isAdmin = session?.user?.role === "ADMIN";
-
-  useEffect(() => {
-    function onDocMouseDown(e: MouseEvent) {
-      if (!productsWrapRef.current?.contains(e.target as Node)) {
-        setProductsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", onDocMouseDown);
-    return () => document.removeEventListener("mousedown", onDocMouseDown);
-  }, []);
 
   function linkClass(href: string) {
     const active =
@@ -116,38 +98,9 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <div className="relative" ref={productsWrapRef}>
-            <button
-              type="button"
-              onClick={() => setProductsOpen((v) => !v)}
-              className={`flex items-center gap-0.5 rounded-md px-2.5 py-2 text-[15px] font-bold lg:px-3 ${
-                pathname.startsWith("/products") ? "text-primary" : "text-foreground hover:text-primary"
-              }`}
-              aria-expanded={productsOpen}
-              aria-haspopup="menu"
-            >
-              Products
-              <ChevronDown className={`h-4 w-4 shrink-0 transition ${productsOpen ? "rotate-180" : ""}`} strokeWidth={2} />
-            </button>
-            {productsOpen ? (
-              <div
-                className="absolute right-0 top-full z-50 mt-1 min-w-[200px] overflow-hidden rounded-md border border-black/10 bg-white py-1 shadow-lg"
-                role="menu"
-              >
-                {productCategories.map((c) => (
-                  <Link
-                    key={c.href}
-                    href={c.href}
-                    role="menuitem"
-                    className="block px-4 py-2.5 text-sm font-bold text-foreground transition hover:bg-primary/5 hover:text-primary"
-                    onClick={() => setProductsOpen(false)}
-                  >
-                    {c.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-          </div>
+          <Link href="/products" className={linkClass("/products")}>
+            Products
+          </Link>
         </nav>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
@@ -218,17 +171,13 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <p className="px-3 pt-2 text-xs font-semibold uppercase tracking-wide text-muted">Products</p>
-            {productCategories.map((c) => (
-              <Link
-                key={c.href}
-                href={c.href}
-                onClick={() => setOpen(false)}
-                className="rounded-xl px-3 py-2.5 text-base font-bold text-foreground hover:bg-primary/5 hover:text-primary"
-              >
-                {c.label}
-              </Link>
-            ))}
+            <Link
+              href="/products"
+              onClick={() => setOpen(false)}
+              className="rounded-xl px-3 py-3 text-base font-bold text-foreground hover:bg-primary/5 hover:text-primary"
+            >
+              Products
+            </Link>
             <Link
               href="/daily-specials"
               onClick={() => setOpen(false)}

@@ -10,6 +10,7 @@ import {
   replaceDraftOrderWithLines,
   type SyncCartLineInput,
 } from "@/lib/cart-service";
+import { sendOrderPlacedEmails } from "@/lib/email/send-order-placed-emails";
 
 export type CheckoutResult =
   | { ok: true; reference: string; orderId: string }
@@ -85,6 +86,10 @@ async function promoteDraftToPlacedOrder(
       guestName: contact.name,
       guestEmail: contact.email,
     },
+  });
+
+  void sendOrderPlacedEmails(orderId).catch((err) => {
+    console.error("[order-email] Failed to send order emails:", err);
   });
 
   if (!session?.user?.id) {
